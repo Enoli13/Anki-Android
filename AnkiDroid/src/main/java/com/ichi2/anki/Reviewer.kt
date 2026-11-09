@@ -1037,12 +1037,6 @@ open class Reviewer :
             whiteboard!!.isEnabled = true
         }
         super.unblockControls()
-        // Odak: her cevap günlüğe; durdurma ekranından gelindiyse N kartta bitir.
-        com.ichi2.anki.odak.OdakHooks.onAnswered(rating != Rating.AGAIN)
-        if (odakGateLimit > 0) {
-            odakGateAnswered++
-            if (odakGateAnswered >= odakGateLimit) closeReviewer(RESULT_DEFAULT)
-        }
     }
 
     /** Odak: durdurma ekranından açıldıysa çözülecek kart sayısı (0 = normal çalışma). */
@@ -1623,6 +1617,12 @@ open class Reviewer :
         val timebox = withCol { timeboxReached() }
         if (timebox != null) {
             dealWithTimeBox(timebox)
+        }
+        // Odak: her cevap günlüğe; durdurma ekranından gelindiyse N kartta bitir.
+        com.ichi2.anki.odak.OdakHooks.onAnswered(rating != Rating.AGAIN)
+        if (odakGateLimit > 0) {
+            odakGateAnswered++
+            if (odakGateAnswered >= odakGateLimit) closeReviewer(RESULT_DEFAULT)
         }
     }
 
