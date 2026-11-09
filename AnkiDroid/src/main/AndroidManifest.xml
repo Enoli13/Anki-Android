@@ -57,7 +57,21 @@
         android:xlargeScreens="true"
         />
 
+    <!-- Odak: isteğe bağlı ekran süresi görünümü (kullanıcı ayarlardan kendisi verir) -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
     <queries>
+        <!-- Odak: hedef uygulamalar -->
+        <package android:name="com.instagram.android" />
+        <package android:name="com.google.android.youtube" />
+        <package android:name="com.zhiliaoapp.musically" />
+        <package android:name="com.ss.android.ugc.trill" />
+        <package android:name="com.facebook.katana" />
+        <package android:name="com.twitter.android" />
+        <package android:name="com.snapchat.android" />
+        <package android:name="com.reddit.frontpage" />
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
@@ -725,6 +739,44 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
+        <!-- ===== Odak ===== -->
+        <activity
+            android:name="com.ichi2.anki.odak.ui.OdakActivity"
+            android:exported="false"
+            android:label="@string/odak_menu_title"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Odak"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.ichi2.anki.odak.ui.StopActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="${applicationId}.odakgate"
+            android:theme="@style/Theme.Odak.Gate"
+            android:windowSoftInputMode="adjustResize" />
+        <service
+            android:name="com.ichi2.anki.odak.service.GateService"
+            android:exported="false"
+            android:label="@string/odak_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/odak_accessibility_config" />
+        </service>
+        <service
+            android:name="com.ichi2.anki.odak.service.BatchListener"
+            android:exported="true"
+            android:label="@string/odak_batch_label"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

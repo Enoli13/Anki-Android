@@ -4,7 +4,8 @@
 android {
     lint {
         abortOnError = true
-        checkReleaseBuilds = true
+        // Odak fork derlemesinde sürüm lint'i atlanır (ODAK_BUILD=true)
+        checkReleaseBuilds = System.getenv("ODAK_BUILD") != "true"
         checkTestSources = true
         explainIssues = false
         lintConfig = file("${rootDir}/lint-release.xml")

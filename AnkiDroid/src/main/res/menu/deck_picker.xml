@@ -13,6 +13,11 @@
         ankidroid:actionViewClass="com.ichi2.ui.AccessibleSearchView"
         ankidroid:showAsAction="always|collapseActionView"/>
     <item
+        android:id="@+id/action_odak"
+        android:icon="@drawable/calendar_date_range"
+        android:title="@string/odak_menu_title"
+        ankidroid:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/action_sync"
         android:icon="@drawable/ic_sync"
         android:title="@string/button_sync"

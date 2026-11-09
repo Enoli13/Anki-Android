@@ -263,6 +263,7 @@ open class Reviewer :
             // avoid showing "AnkiDroid"
             supportActionBar?.title = ""
         }
+        odakGateLimit = intent.getIntExtra(com.ichi2.anki.odak.OdakHooks.EXTRA_GATE_LIMIT, 0)
         startLoadingCollection()
         registerOnForgetHandler { listOf(currentCardId!!) }
         previousCardId = savedInstanceState?.getLongOrNull(KEY_PREVIOUS_CARD_ID)
@@ -1036,9 +1037,28 @@ open class Reviewer :
             whiteboard!!.isEnabled = true
         }
         super.unblockControls()
+        // Odak: her cevap günlüğe; durdurma ekranından gelindiyse N kartta bitir.
+        com.ichi2.anki.odak.OdakHooks.onAnswered(rating != Rating.AGAIN)
+        if (odakGateLimit > 0) {
+            odakGateAnswered++
+            if (odakGateAnswered >= odakGateLimit) closeReviewer(RESULT_DEFAULT)
+        }
     }
 
+    /** Odak: durdurma ekranından açıldıysa çözülecek kart sayısı (0 = normal çalışma). */
+    private var odakGateLimit = 0
+    private var odakGateAnswered = 0
+    private var odakGateReported = false
+
     override fun closeReviewer(result: Int) {
+        if (odakGateLimit > 0 && !odakGateReported) {
+            odakGateReported = true
+            com.ichi2.anki.odak.OdakHooks.onGateFinished(
+                this,
+                odakGateAnswered,
+                noDue = result == RESULT_NO_MORE_CARDS && odakGateAnswered == 0,
+            )
+        }
         // Stop the mic recording if still pending
         if (isRecording) audioRecordingController?.stopAndSaveRecording()
 

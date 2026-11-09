@@ -396,6 +396,11 @@ abstract class NavigationDrawerActivity(
                         openStatistics()
                     }
 
+                    R.id.nav_odak -> {
+                        Timber.i("Navigating to Odak")
+                        startActivity(Intent(this@NavigationDrawerActivity, com.ichi2.anki.odak.ui.OdakActivity::class.java))
+                    }
+
                     R.id.nav_settings -> {
                         Timber.i("Navigating to settings")
                         openSettings()

@@ -1388,6 +1388,11 @@ open class DeckPicker :
                 Timber.i("DeckPicker:: Search button pressed")
                 return true
             }
+            R.id.action_odak -> {
+                Timber.i("DeckPicker:: Odak button pressed")
+                startActivity(Intent(this, com.ichi2.anki.odak.ui.OdakActivity::class.java))
+                return true
+            }
             R.id.action_sync -> {
                 Timber.i("DeckPicker:: Sync button pressed")
                 toolbarSearchItem?.collapseActionView()

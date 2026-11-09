@@ -206,6 +206,7 @@ open class AnkiDroidApp :
         activityAgnosticDialogs = ActivityAgnosticDialogs.register(this)
         setupTextToSpeech()
         setupCustomFieldFilters()
+        com.ichi2.anki.odak.OdakHooks.init(this)
     }
 
     override fun onTerminate() {
